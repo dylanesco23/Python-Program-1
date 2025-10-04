@@ -1,5 +1,18 @@
-# Simple greeting program
-name = input("What's your name? ")
-birthday = input("When is your birthday? (MM/DD) ")
+from openai import OpenAI
 
-print(f"Hello, {name}! Happy upcoming birthday on {birthday}!")
+client = OpenAI()
+
+print("AI Chatbot (type 'quit' to exit)\n")
+
+while True:
+    user_input = input("You: ")
+    if user_input.lower() in ["quit", "exit"]:
+        print("Bot: Goodbye!")
+        break
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": user_input}]
+    )
+
+    print("Bot:", response.choices[0].message.content)
